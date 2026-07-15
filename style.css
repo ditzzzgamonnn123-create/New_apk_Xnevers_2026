@@ -1,0 +1,135 @@
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background: linear-gradient(-45deg,#001f1f,#003333,#002b36,#001a1a);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+}
+
+/* Background Animation */
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.container{
+    width:330px;
+    padding:45px;
+    border-radius:25px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border:1px solid rgba(0,255,255,0.4);
+    box-shadow: 0 0 40px rgba(0,255,255,0.4);
+    color:white;
+    animation: fadeIn 1s ease;
+    transition:0.4s;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(30px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+.container:hover{
+    box-shadow: 0 0 60px rgba(0,255,255,0.8);
+}
+
+h1{
+    text-align:center;
+    font-size:42px;
+    letter-spacing:4px;
+    margin-bottom:10px;
+    text-shadow:0 0 15px cyan;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:30px;
+    font-weight:400;
+}
+
+.input-box{
+    margin-bottom:20px;
+    position:relative;
+}
+
+.input-box input{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid rgba(0,255,255,0.5);
+    background: transparent;
+    color:white;
+    outline:none;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.input-box input:focus{
+    box-shadow:0 0 15px cyan;
+    border:1px solid cyan;
+}
+
+.toggle{
+    position:absolute;
+    right:10px;
+    top:12px;
+    cursor:pointer;
+    font-size:13px;
+    color:cyan;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    background: linear-gradient(90deg,#00f5ff,#0072ff);
+    color:white;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 20px cyan;
+}
+
+.footer{
+    margin-top:25px;
+    text-align:center;
+    font-size:14px;
+}
+
+.footer span{
+    color:cyan;
+    cursor:pointer;
+}
+
+/* Shake Animation */
+@keyframes shake{
+    0%{transform:translateX(0);}
+    25%{transform:translateX(-8px);}
+    50%{transform:translateX(8px);}
+    75%{transform:translateX(-8px);}
+    100%{transform:translateX(0);}
+}
+
+.shake{
+    animation:shake 0.4s;
+}
+</style>

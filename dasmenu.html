@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AGS Project - Welcome</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+        color: white;
+        background: radial-gradient(circle at 20% 0%, #241f52 0%, transparent 45%),
+                    radial-gradient(circle at 90% 100%, #3a1a4d 0%, transparent 50%),
+                    linear-gradient(160deg, #0c0a1f 0%, #16123a 50%, #0e0c22 100%);
+    }
+
+    #background-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 24px 16px;
+    }
+
+    .container {
+        background: rgba(15, 12, 32, 0.55);
+        border-radius: 22px;
+        backdrop-filter: blur(18px);
+        padding: 34px 26px;
+        max-width: 620px;
+        width: 100%;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .container::before {
+        content: '';
+        position: absolute;
+        top: -40%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 140%;
+        height: 220px;
+        background: radial-gradient(ellipse, rgba(35,213,171,0.18), transparent 65%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .container > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .gambar-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 22px;
+    }
+
+    .avatar-ring {
+        width: 400px;
+        height: 200px;
+        border-radius: 18px;
+        padding: 4px;
+        background: conic-gradient(from 180deg, #23d5ab, #23a6d5, #9b59b6, #fc00ff, #23d5ab);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 100%;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: 15px;
+        object-fit: cover;
+        display: block;
+        border: 3px solid #14112b;
+        transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .avatar-ring:hover img {
+        transform: scale(1.06);
+    }
+
+    .eyebrow {
+        font-size: 0.72em;
+        font-weight: 700;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.4);
+        margin-bottom: 8px;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 2.6em;
+        font-weight: 800;
+        background: linear-gradient(90deg, #23d5ab, #23a6d5 45%, #a86bff 75%, #fc00ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 8px;
+        letter-spacing: -0.5px;
+        filter: drop-shadow(0 4px 20px rgba(35, 213, 171, 0.2));
+    }
+
+    h2 {
+        color: rgba(255, 255, 255, 0.55);
+        font-weight: 500;
+        font-size: 0.95em;
+        margin-bottom: 8px;
+        letter-spacing: 0.3px;
+    }
+
+    .section-label {
+        font-size: 0.7em;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        margin: 26px 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+    }
+
+    .section-label::before,
+    .section-label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    }
+
+    .buttons-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    a.button-link {
+        text-decoration: none;
+        display: block;
+        width: 100%;
+    }
+
+    button {
+        font-family: inherit;
+        background: linear-gradient(135deg, rgba(35,166,213,0.15), rgba(35,213,171,0.15));
+        color: #eafffb;
+        border: 1.5px solid rgba(35, 213, 171, 0.4);
+        padding: 16px 24px;
+        font-size: 1.05em;
+        font-weight: 700;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.25s cubic-bezier(.2,.8,.2,1);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    button::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(180deg, #23d5ab, #23a6d5);
+        transition: width 0.2s ease;
+    }
+
+    button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+        transition: left 0.5s ease;
+    }
+
+    button:hover::before {
+        left: 100%;
+    }
+
+    button:hover {
+        transform: translateY(-3px);
+        background: linear-gradient(135deg, rgba(35,166,213,0.26), rgba(35,213,171,0.26));
+        box-shadow: 0 10px 24px rgba(35, 213, 171, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        border-color: rgba(35, 213, 171, 0.85);
+    }
+
+    button:hover::after {
+        width: 5px;
+    }
+
+    button:active {
+        transform: translateY(-1px) scale(0.99);
+    }
+
+    .btn-developer {
+        background: linear-gradient(135deg, rgba(155,89,182,0.15), rgba(142,68,173,0.15));
+        border-color: rgba(155, 89, 182, 0.4);
+        color: #f4eaff;
+    }
+
+    .btn-developer::after {
+        background: linear-gradient(180deg, #9b59b6, #8e44ad);
+    }
+
+    .btn-developer:hover {
+        background: linear-gradient(135deg, rgba(155,89,182,0.28), rgba(142,68,173,0.28));
+        box-shadow: 0 10px 24px rgba(155, 89, 182, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        border-color: rgba(155, 89, 182, 0.85);
+    }
+
+    .warning {
+        background: rgba(255, 68, 68, 0.08);
+        padding: 18px 20px;
+        border-radius: 14px;
+        margin: 22px 0 8px;
+        border: 1px solid rgba(255, 68, 68, 0.3);
+        border-left: 3px solid #ff4444;
+        backdrop-filter: blur(6px);
+        text-align: left;
+        box-shadow: 0 8px 20px rgba(255, 68, 68, 0.06);
+    }
+
+    .warning h4 {
+        color: #ff5c5c;
+        font-size: 1em;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .warning p {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.55;
+        font-size: 0.9em;
+    }
+
+    .footer-note {
+        margin-top: 24px;
+        font-size: 0.72em;
+        letter-spacing: 0.5px;
+        color: rgba(255,255,255,0.3);
+        line-height: 1.6;
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: 28px 18px;
+            border-radius: 18px;
+        }
+
+        h1 {
+            font-size: 2.1em;
+        }
+
+        .avatar-ring {
+            width: 230px;
+            height: 125px;
+        }
+
+        button {
+            padding: 14px 18px;
+            font-size: 0.95em;
+        }
+    }
+</style>
+</head>
+<body>
+<canvas id="background-canvas"></canvas>
+
+<div class="main-content">
+    <div class="container">
+        <div class="gambar-container">
+            <div class="avatar-ring">
+                <img src="https://files.catbox.moe/imthjy.png" alt="AGS Project">
+            </div>
+        </div>
+
+        <div class="eyebrow">Selamat datang di</div>
+        <h1>Dasboard Tools</h1>
+        <h2>Akses semua fitur AGS Project di satu tempat</h2>
+
+
+        <div class="section-label">Fitur Utama</div>
+        <div class="buttons-container">
+            <a class="button-link" href="ffbeta.html" target="_blank" rel="noopener noreferrer">
+                <button>nama</button>
+            </a>
+            <a class="button-link" href="menu1.html" target="_blank" rel="noopener noreferrer">
+                <button>nama</button>
+            </a>
+        </div>
+
+        <div class="section-label">nama menu</div>
+        <div class="buttons-container">
+            <a class="button-link" href="tools1.html" target="_blank" rel="noopener noreferrer">
+                <button>Nama</button>
+            </a>
+            <a class="button-link" href="tools2.html" target="_blank" rel="noopener noreferrer">
+                <button>nama</button>
+            </a>
+        </div>
+
+        <div class="section-label">nama menu</div>
+        <div class="buttons-container">
+            <a class="button-link" href="ngwe1.html" target="_blank" rel="noopener noreferrer">
+                <button>Nama</button>
+            </a>
+            <a class="button-link" href="ngwe2.html" target="_blank" rel="noopener noreferrer">
+                <button>nama</button>
+            </a>
+        </div>
+       
+        <div class="section-label">nama menu</div>
+        <div class="buttons-container">
+            <a class="button-link" href="ngentod1.html" target="_blank" rel="noopener noreferrer">
+                <button>Nama</button>
+            </a>
+            <a class="button-link" href="ngentod2.html" target="_blank" rel="noopener noreferrer">
+                <button>nama</button>
+            </a>
+        </div>
+
+        <div class="footer-note">Team Nevers &copy; 2026</div>
+    </div>
+</div>
+
+<script>
+    // Setup canvas
+    const canvas = document.getElementById('background-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2.4 + 0.8;
+            this.speedX = (Math.random() * 2 - 1) * 0.5;
+            this.speedY = (Math.random() * 2 - 1) * 0.5;
+            this.color = getRandomColor();
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x > canvas.width) this.speedX = -Math.abs(this.speedX);
+            if (this.x < 0) this.speedX = Math.abs(this.speedX);
+            if (this.y > canvas.height) this.speedY = -Math.abs(this.speedY);
+            if (this.y < 0) this.speedY = Math.abs(this.speedY);
+        }
+        draw() {
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowColor = this.color;
+            ctx.shadowBlur = 8;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+    }
+
+    let particles = [];
+    function initParticles() {
+        particles = [];
+        const particleCount = Math.floor((canvas.width * canvas.height) / 9000);
+        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+    }
+
+    function getRandomColor() {
+        const colors = ['#8e44ad', '#9b59b6', '#23a6d5', '#23d5ab', '#00dbde', '#fc00ff'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function drawLines() {
+        const maxDistance = 120;
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < maxDistance) {
+                    const opacity = 1 - (distance / maxDistance);
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.15})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    function animate() {
+        ctx.fillStyle = 'rgba(12, 10, 31, 0.12)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        for (let particle of particles) {
+            particle.update();
+            particle.draw();
+        }
+        drawLines();
+        requestAnimationFrame(animate);
+    }
+
+    initParticles();
+    animate();
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        setTimeout(initParticles, 100);
+    });
+
+    const profileImg = document.querySelector('img');
+    if (profileImg) {
+        profileImg.onerror = function() {
+            this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%23241f52"/><text x="100" y="100" font-family="Arial" font-size="50" fill="white" text-anchor="middle" dy=".3em">AGS</text></svg>';
+            this.alt = "Default Profile Image";
+        };
+    }
+
+    document.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.5);
+                transform: scale(0);
+                animation: ripple 0.7s ease-out;
+                width: ${size}px;
+                height: ${size}px;
+                top: ${y}px;
+                left: ${x}px;
+                pointer-events: none;
+            `;
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 700);
+        });
+    });
+
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to { transform: scale(3.5); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+</body>
+</html>

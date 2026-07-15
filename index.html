@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEVERS VIP · Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05070f;
+    --panel:#0d1224;
+    --panel-line:rgba(125,160,255,.16);
+    --cyan:#4dfaff;
+    --magenta:#ff3ec8;
+    --violet:#7b5cff;
+    --text:#dfe8ff;
+    --text-dim:#7186b8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:
+      radial-gradient(ellipse 60% 45% at 15% -10%, rgba(123,92,255,.28), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 105% 15%, rgba(77,250,255,.16), transparent 55%),
+      var(--bg);
+    color:var(--text); font-family:'Rajdhani',sans-serif; overflow:hidden; padding:24px;
+  }
+  .stars, .stars2{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+      radial-gradient(1px 1px at 70% 60%, #fff, transparent),
+      radial-gradient(1px 1px at 40% 80%, #fff, transparent),
+      radial-gradient(1px 1px at 90% 20%, #fff, transparent),
+      radial-gradient(1px 1px at 55% 45%, #fff, transparent),
+      radial-gradient(1px 1px at 10% 70%, #fff, transparent),
+      radial-gradient(1px 1px at 85% 85%, #fff, transparent);
+    background-size:300px 300px; opacity:.55; animation:drift 90s linear infinite;
+  }
+  .stars2{ background-size:220px 220px; opacity:.3; animation-duration:60s; animation-direction:reverse; }
+  @keyframes drift{ from{background-position:0 0;} to{background-position:1000px 500px;} }
+
+  .stage{ position:relative; z-index:1; width:100%; max-width:400px; perspective:1400px; }
+
+  .card{
+    position:relative; width:100%; min-height:480px;
+    transform-style:preserve-3d; transition:transform .7s cubic-bezier(.4,.2,.2,1);
+  }
+  .card.flipped{ transform:rotateY(180deg); }
+
+  .face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    background:linear-gradient(180deg, rgba(13,18,36,.92), rgba(13,18,36,.75));
+    border:1px solid var(--panel-line); border-radius:20px; padding:34px 28px;
+    box-shadow:0 0 40px rgba(77,250,255,.08), inset 0 0 60px rgba(123,92,255,.05);
+  }
+  .face.back{ transform:rotateY(180deg); }
+
+  .brand{ text-align:center; margin-bottom:6px; }
+  .brand .logo{
+    font-family:'Orbitron',sans-serif; font-weight:900; font-size:22px; letter-spacing:3px;
+  }
+  .brand .logo span{ color:var(--cyan); text-shadow:0 0 14px rgba(77,250,255,.7); }
+  .brand .sub{
+    font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:3px;
+    color:var(--text-dim); margin-top:4px;
+  }
+
+  h2.title{
+    font-family:'Orbitron',sans-serif; font-size:16px; letter-spacing:2px; text-transform:uppercase;
+    text-align:center; margin:26px 0 22px; color:var(--text);
+  }
+
+  .field{ margin-bottom:16px; }
+  .field label{
+    display:block; font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:1.5px;
+    color:var(--text-dim); margin-bottom:6px;
+  }
+  .field .row{ position:relative; }
+  .field input{
+    width:100%; background:rgba(255,255,255,.03); border:1px solid var(--panel-line);
+    border-radius:10px; padding:12px 42px 12px 14px; color:var(--text); font-size:15px;
+    font-family:'Rajdhani',sans-serif; font-weight:600; outline:none; transition:.25s;
+  }
+  .field input:focus{ border-color:var(--cyan); box-shadow:0 0 14px rgba(77,250,255,.25); }
+  .field .toggle{
+    position:absolute; right:12px; top:50%; transform:translateY(-50%);
+    font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--cyan); cursor:pointer;
+    letter-spacing:1px; user-select:none;
+  }
+
+  .msg{
+    min-height:18px; font-family:'Share Tech Mono',monospace; font-size:12px;
+    text-align:center; margin:-4px 0 14px; color:var(--magenta);
+  }
+  .msg.ok{ color:var(--cyan); }
+
+  button.primary{
+    width:100%; padding:13px; border:none; border-radius:10px; cursor:pointer;
+    background:linear-gradient(90deg, var(--violet), var(--cyan));
+    color:#04060d; font-family:'Orbitron',sans-serif; font-weight:700; font-size:13px;
+    letter-spacing:2px; text-transform:uppercase; transition:.25s;
+    box-shadow:0 0 18px rgba(77,250,255,.25);
+  }
+  button.primary:hover{ filter:brightness(1.1); box-shadow:0 0 26px rgba(77,250,255,.45); }
+  button.primary:active{ transform:scale(.98); }
+
+  .switch{
+    text-align:center; margin-top:10px; font-family:'Share Tech Mono',monospace;
+    font-size:15px; color:var(--text-dim);
+  }
+  .switch a{ color:var(--cyan); text-decoration:none; letter-spacing:1px; cursor:pointer; }
+  .switch a:hover{ text-shadow:0 0 8px rgba(77,250,255,.6); }
+
+  .footer-note{
+    position:absolute; bottom:14px; left:0; right:0; text-align:center;
+    font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:1.5px; color:var(--text-dim);
+    opacity:.7;
+  }
+
+  @keyframes shake{
+    10%,90%{ transform:translateX(-1px); }
+    20%,80%{ transform:translateX(2px); }
+    30%,50%,70%{ transform:translateX(-4px); }
+    40%,60%{ transform:translateX(4px); }
+  }
+  .shake{ animation:shake .4s; }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="stars2"></div>
+
+<div class="stage">
+  <div class="card" id="card">
+
+    <!-- LOGIN FACE -->
+    <div class="face front">
+      <div class="brand">
+        <div class="logo"><span>XNEVERS</span></div>
+        <div class="sub">SECURE ACCESS TERMINAL</div>
+      </div>
+
+      <h2 class="title">Masuk</h2>
+
+      <div class="field">
+        <label for="loginUser">USERNAME</label>
+        <div class="row"><input type="text" id="loginUser" autocomplete="username" placeholder="Masukkan username"></div>
+      </div>
+      <div class="field">
+        <label for="loginPass">PASSWORD</label>
+        <div class="row">
+          <input type="password" id="loginPass" autocomplete="current-password" placeholder="Masukkan password">
+          <span class="toggle" onclick="togglePass('loginPass', this)">SHOW</span>
+        </div>
+      </div>
+
+      <div class="msg" id="loginMsg"></div>
+      <button class="primary" onclick="login()">Login</button>
+
+      <div class="switch">Belum punya akun? <a onclick="flipTo(true)">Daftar di sini</a></div>
+      <div class="footer-note">BY SERVER HIGH &amp; BASSIC</div>
+    </div>
+
+    <!-- REGISTER FACE -->
+    <div class="face back">
+      <div class="brand">
+        <div class="logo"><span>XNEVERS</span></div>
+        <div class="sub">BUAT AKUN BARU</div>
+      </div>
+
+      <h2 class="title">Daftar</h2>
+
+      <div class="field">
+        <label for="regUser">USERNAME</label>
+        <div class="row"><input type="text" id="regUser" autocomplete="username" placeholder="Pilih username"></div>
+      </div>
+      <div class="field">
+        <label for="regPass">PASSWORD</label>
+        <div class="row">
+          <input type="password" id="regPass" autocomplete="new-password" placeholder="Minimal 6 karakter">
+          <span class="toggle" onclick="togglePass('regPass', this)">SHOW</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="regPass2">ULANGI PASSWORD</label>
+        <div class="row">
+          <input type="password" id="regPass2" autocomplete="new-password" placeholder="Ulangi password">
+          <span class="toggle" onclick="togglePass('regPass2', this)">SHOW</span>
+        </div>
+      </div>
+
+      <div class="msg" id="regMsg"></div>
+      <button class="primary" onclick="register()">Buat Akun</button>
+
+      <div class="switch">Sudah punya akun? <a onclick="flipTo(false)">Masuk di sini</a></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const STORE_KEY = 'nevers_vip_users';
+
+  function getUsers(){
+    try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveUsers(users){
+    localStorage.setItem(STORE_KEY, JSON.stringify(users));
+  }
+
+  // Hash password pakai SHA-256 (browser native), supaya tidak disimpan mentah/plaintext
+  async function hashPass(text){
+    const enc = new TextEncoder().encode(text);
+    const buf = await crypto.subtle.digest('SHA-256', enc);
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  function flipTo(showRegister){
+    document.getElementById('card').classList.toggle('flipped', showRegister);
+    document.getElementById('loginMsg').textContent = '';
+    document.getElementById('regMsg').textContent = '';
+  }
+
+  function togglePass(id, el){
+    const input = document.getElementById(id);
+    const isPass = input.type === 'password';
+    input.type = isPass ? 'text' : 'password';
+    el.textContent = isPass ? 'HIDE' : 'SHOW';
+  }
+
+  function setMsg(id, text, ok){
+    const el = document.getElementById(id);
+    el.textContent = text;
+    el.classList.toggle('ok', !!ok);
+  }
+
+  async function register(){
+    const user = document.getElementById('regUser').value.trim();
+    const pass = document.getElementById('regPass').value;
+    const pass2 = document.getElementById('regPass2').value;
+
+    if(!user || !pass){
+      setMsg('regMsg', 'Username dan password wajib diisi.');
+      return;
+    }
+    if(pass.length < 6){
+      setMsg('regMsg', 'Password minimal 6 karakter.');
+      return;
+    }
+    if(pass !== pass2){
+      setMsg('regMsg', 'Konfirmasi password tidak cocok.');
+      return;
+    }
+
+    const users = getUsers();
+    if(users[user]){
+      setMsg('regMsg', 'Username sudah dipakai, pilih yang lain.');
+      return;
+    }
+
+    users[user] = await hashPass(pass);
+    saveUsers(users);
+
+    setMsg('regMsg', 'Akun berhasil dibuat! Mengalihkan ke login...', true);
+    setTimeout(() => {
+      document.getElementById('loginUser').value = user;
+      document.getElementById('regUser').value = '';
+      document.getElementById('regPass').value = '';
+      document.getElementById('regPass2').value = '';
+      flipTo(false);
+    }, 900);
+  }
+
+  async function login(){
+    const user = document.getElementById('loginUser').value.trim();
+    const pass = document.getElementById('loginPass').value;
+    const card = document.getElementById('card');
+
+    if(!user || !pass){
+      setMsg('loginMsg', 'Username dan password wajib diisi.');
+      return;
+    }
+
+    const users = getUsers();
+    const hashed = await hashPass(pass);
+
+    if(users[user] && users[user] === hashed){
+      setMsg('loginMsg', 'Login berhasil! Mengalihkan...', true);
+      setTimeout(() => { window.location.href = 'dasboard.html'; }, 700);
+    } else {
+      setMsg('loginMsg', 'Username atau password salah.');
+      card.classList.add('shake');
+      setTimeout(() => card.classList.remove('shake'), 400);
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      const back = document.getElementById('card').classList.contains('flipped');
+      back ? register() : login();
+    }
+  });
+</script>
+
+</body>
+</html>
